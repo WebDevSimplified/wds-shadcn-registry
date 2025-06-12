@@ -42,7 +42,7 @@
     "sonner": "^2.0.5",
     "starlight-theme-black": "^0.6.0",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.9",
+    "tailwindcss": "^4.1.10",
     "zod": "^3.25.63"
   },
   "devDependencies": {
