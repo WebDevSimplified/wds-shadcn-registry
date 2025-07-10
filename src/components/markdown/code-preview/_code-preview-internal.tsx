@@ -1,9 +1,9 @@
-import { lazy, Suspense, type ReactNode } from "react"
+import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Loader2Icon } from "lucide-react"
-import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { SERVER_URL } from "@/data/env"
+import { Loader2Icon } from "lucide-react"
+import { lazy, Suspense, type ReactNode } from "react"
 
 export type Demo =
   | "action-button/basic"
@@ -21,6 +21,7 @@ export type Demo =
   | "number-input/form"
   | "password-input/basic"
   | "password-input/form"
+  | "password-input/password-strength"
 
 export function CodePreviewInternal({
   demo,
