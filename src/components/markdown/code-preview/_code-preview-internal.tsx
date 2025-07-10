@@ -21,6 +21,7 @@ export type Demo =
   | "number-input/form"
   | "password-input/basic"
   | "password-input/form"
+  | "password-input/password-strength"
 
 export function CodePreviewInternal({
   demo,
