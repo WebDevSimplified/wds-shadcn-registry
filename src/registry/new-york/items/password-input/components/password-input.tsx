@@ -2,34 +2,19 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useState, type ComponentProps, type ReactNode } from "react"
 import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ComponentProps,
-  type ReactNode,
-} from "react"
-
-type PasswordInputContextType = {
-  password: string
-  showPassword: boolean
-}
-
-const PasswordInputContext = createContext<
-  PasswordInputContextType | undefined
->(undefined)
-
-export const usePasswordInput = () => {
-  const context = useContext(PasswordInputContext)
-  if (!context) {
-    throw new Error("usePasswordInput must be used within a PasswordInput")
-  }
-  return context
-}
+  PasswordInputContext,
+  usePasswordInput,
+} from "./password-input-context"
+import type { PasswordStrengthConfig } from "../types"
+import {
+  calculatePasswordStrength,
+  defaultConfig,
+  getStrengthColor,
+} from "../utils"
 
 export function PasswordInput({
   className,
@@ -86,75 +71,59 @@ export function PasswordInput({
   )
 }
 
-type PasswordStrength = {
-  score: number
-  label: "Weak" | "Good" | "Strong"
-  checks: {
-    length: boolean
-    uppercase: boolean
-    lowercase: boolean
-    numbers: boolean
-    special: boolean
-  }
-}
-
-const calculatePasswordStrength = (password: string): PasswordStrength => {
-  const checks = {
-    length: password.length >= 8,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    numbers: /\d/.test(password),
-    special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-  }
-
-  const score = Object.values(checks).filter(Boolean).length
-
-  let label: PasswordStrength["label"] = "Weak"
-
-  if (score >= 4) {
-    label = "Strong"
-  } else if (score >= 3) {
-    label = "Good"
-  }
-
-  return { score, label, checks }
-}
-
 export function PasswordInputStrengthChecker({
   className,
+  config: userConfig,
 }: {
   className?: string
+  config?: PasswordStrengthConfig
 }) {
   const { password } = usePasswordInput()
-  const [strength, setStrength] = useState<PasswordStrength>(() =>
-    calculatePasswordStrength(""),
-  )
 
-  useEffect(() => {
-    const newStrength = calculatePasswordStrength(password)
-    setStrength(newStrength)
-  }, [password])
+  const config = { ...defaultConfig, ...userConfig }
+
+  const strength = calculatePasswordStrength(password, config)
 
   if (!password) return null
+
+  const segmentValue = Math.min(
+    Math.ceil(
+      (strength.score / Math.max(...Object.values(config.thresholds))) *
+        config.segments,
+    ),
+    config.segments,
+  )
 
   return (
     <div className={cn("space-y-2", className)}>
       <div className="space-y-1">
-        <div className="flex space-x-1">
-          {[0, 1, 2].map(index => (
-            <div key={index} className="flex-1">
-              <Progress
-                value={strength.score > index * 2 ? 100 : 0}
-                className="h-1"
-                color={
-                  strength.score > index * 2 ? "bg-green-400" : "bg-red-400"
-                }
+        <div
+          role="progressbar"
+          aria-label="Password Strength"
+          aria-valuenow={segmentValue}
+          aria-valuemin={0}
+          aria-valuemax={config.segments}
+          aria-valuetext={strength.label}
+          className="flex space-x-1"
+        >
+          {Array.from({ length: config.segments }, (_, i) => i + 1).map(
+            segmentIndex => (
+              <div
+                key={segmentIndex}
+                className={cn(
+                  "h-1 flex-1 rounded-full transition-colors duration-200",
+                  segmentValue >= segmentIndex
+                    ? getStrengthColor(strength.label)
+                    : "bg-gray-200 dark:bg-gray-700",
+                )}
               />
-            </div>
-          ))}
+            ),
+          )}
         </div>
         <div className="flex items-center justify-end text-sm">
-          <span className="font-medium text-black">{strength.label}</span>
+          <span className="font-medium text-black dark:text-white">
+            {strength.label}
+          </span>
         </div>
       </div>
     </div>
