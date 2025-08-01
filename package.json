@@ -39,11 +39,11 @@
     "@tailwindcss/vite": "^4.1.11",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
-    "astro": "^5.12.6",
+    "astro": "^5.12.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "lucide-react": "^0.534.0",
+    "lucide-react": "^0.536.0",
     "next-themes": "^0.4.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -53,7 +53,7 @@
     "starlight-theme-black": "^0.6.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.9",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "zod": "^4.0.14"
   },
   "devDependencies": {
