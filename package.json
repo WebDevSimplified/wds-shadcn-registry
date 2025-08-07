@@ -20,7 +20,6 @@
     ]
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^4.3.0",
     "@astrojs/starlight": "^0.35.2",
     "@astrojs/starlight-tailwind": "^4.0.1",
@@ -37,8 +36,6 @@
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tailwindcss/vite": "^4.1.11",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
     "astro": "^5.12.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -53,13 +50,16 @@
     "starlight-theme-black": "^0.6.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.9",
-    "typescript": "^5.9.2",
+    "tw-animate-css": "^1.3.6",
     "zod": "^4.0.15"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@eslint/js": "^9.32.0",
     "@eslint/json": "^0.13.1",
     "@eslint/markdown": "^7.1.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "astro-eslint-parser": "^1.2.2",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
@@ -74,7 +74,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "shadcn": "^2.9.3",
-    "tw-animate-css": "^1.3.6",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0"
   }
 }
