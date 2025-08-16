@@ -217,9 +217,9 @@ export function MultiSelectValue({
             onClick={
               clickToRemove
                 ? e => {
-                    e.stopPropagation()
-                    toggleValue(value)
-                  }
+                  e.stopPropagation()
+                  toggleValue(value)
+                }
                 : undefined
             }
           >
@@ -259,7 +259,21 @@ export function MultiSelectContent({
           <CommandList>{children}</CommandList>
         </Command>
       </div>
-      <PopoverContent className="min-w-[var(--radix-popover-trigger-width)] p-0">
+      <PopoverContent className="min-w-[var(--radix-popover-trigger-width)] p-0"
+        onTouchStart={e => {
+          const target = e.currentTarget;
+          if (target && typeof target.focus === "function") {
+            target.focus();
+          }
+        }}
+        onTouchMove={e => {
+          e.stopPropagation();
+        }}
+        style={{
+          WebkitOverflowScrolling: "touch",
+          overflowY: "auto",
+        }}
+        tabIndex={-1}>
         <Command {...props}>
           {canSearch ? (
             <CommandInput
