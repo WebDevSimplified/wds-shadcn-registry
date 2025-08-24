@@ -28,6 +28,10 @@ jobs:
 
       - name: Run Astro check
         run: npx astro check
+        env:
+          GITHUB_REPO_URL: https://github.com/WebDevSimplified/wds-shadcn-registry
+          DEPLOY_PRIME_URL: https://localhost:4321
+          URL: https://wds-shadcn-registry.netlify.app
 
       - name: Build registry
         run: npm run registry:build
