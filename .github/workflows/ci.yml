@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-type-check:
+    runs-on: ubuntu-latest
+    name: Lint and Type Check
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier check
+        run: npx prettier --check .
+
+      - name: Run Astro type check
+        run: npx astro check
+
+  build-registry:
+    runs-on: ubuntu-latest
+    name: Build Registry
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build registry
+        run: npm run registry:build
+
+      - name: Check registry files
+        run: |
+          if [ ! -d "./public/r" ]; then
+            echo "Registry build failed - ./public/r directory not found"
+            exit 1
+          fi
+          echo "Registry build successful"
+
+  build-site:
+    runs-on: ubuntu-latest
+    name: Build Site
+    needs: [lint-and-type-check, build-registry]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build registry (required for site build)
+        run: npm run registry:build
+
+      - name: Build site
+        run: npm run build

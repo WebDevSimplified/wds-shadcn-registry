@@ -1,0 +1,91 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+    name: Validate Pull Request
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full linting and formatting check
+        run: |
+          echo "Running ESLint..."
+          npm run lint
+          echo "Running Prettier check..."
+          npx prettier --check .
+          echo "All linting and formatting checks passed!"
+
+      - name: Run type checking
+        run: |
+          echo "Running Astro type check..."
+          npx astro check
+          echo "Type checking passed!"
+
+      - name: Build and validate registry
+        run: |
+          echo "Building registry..."
+          npm run registry:build
+
+          echo "Validating registry build..."
+          if [ ! -d "./public/r" ]; then
+            echo "❌ Registry build failed - ./public/r directory not found"
+            exit 1
+          fi
+
+          # Check if registry files were generated
+          registry_files=$(find ./public/r -name "*.json" 2>/dev/null | wc -l)
+          if [ "$registry_files" -eq 0 ]; then
+            echo "❌ No registry JSON files found in ./public/r"
+            exit 1
+          fi
+
+          echo "✅ Registry build successful - found $registry_files JSON files"
+
+      - name: Validate registry files are up to date
+        run: |
+          echo "Checking if registry files are up to date..."
+
+          # Check if there are any changes to registry files
+          git add ./public/r
+          if ! git diff --cached --quiet ./public/r; then
+            echo "❌ Registry files are not up to date!"
+            echo "The following files need to be committed:"
+            git diff --cached --name-only ./public/r
+            echo ""
+            echo "Please run 'npm run registry:build' and commit the changes."
+            exit 1
+          fi
+
+          echo "✅ Registry files are up to date"
+
+      - name: Test full build
+        run: |
+          echo "Testing full site build..."
+          npm run build
+          echo "✅ Full build successful!"
+
+      - name: Summary
+        run: |
+          echo "🎉 All PR validation checks passed!"
+          echo "✅ Linting and formatting"
+          echo "✅ Type checking"
+          echo "✅ Registry build and validation"
+          echo "✅ Registry files up to date"
+          echo "✅ Full site build"
