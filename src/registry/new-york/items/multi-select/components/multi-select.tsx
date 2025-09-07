@@ -304,10 +304,9 @@ export function MultiSelectItem({
   return (
     <CommandItem
       {...props}
-      value={value}
-      onSelect={v => {
-        toggleValue(v)
-        onSelect?.(v)
+      onSelect={() => {
+        toggleValue(value)
+        onSelect?.(value)
       }}
     >
       <CheckIcon
