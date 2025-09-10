@@ -52,9 +52,10 @@ export function MultiSelect({
   onValuesChange?: (values: string[]) => void
 }) {
   const [open, setOpen] = useState(false)
-  const [selectedValues, setSelectedValues] = useState(
+  const [internalValues, setInternalValues] = useState(
     new Set<string>(values ?? defaultValues),
   )
+  const selectedValues = values ? new Set(values) : internalValues
   const [items, setItems] = useState<Map<string, ReactNode>>(new Map())
 
   function toggleValue(value: string) {
@@ -67,7 +68,7 @@ export function MultiSelect({
       }
       return newSet
     }
-    setSelectedValues(getNewSet)
+    setInternalValues(getNewSet)
     onValuesChange?.([...getNewSet(selectedValues)])
   }
 
@@ -83,7 +84,7 @@ export function MultiSelect({
       value={{
         open,
         setOpen,
-        selectedValues: values ? new Set(values) : selectedValues,
+        selectedValues,
         toggleValue,
         items,
         onItemAdded,
