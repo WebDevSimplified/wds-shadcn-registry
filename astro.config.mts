@@ -67,6 +67,42 @@ export default defineConfig({
             type: "image/svg+xml",
           },
         },
+        // OG Images
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: `${SERVER_URL}/og.webp`,
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:secure_url",
+            content: `${SERVER_URL}/og.webp`,
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:width",
+            content: "1200",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:height",
+            content: "630",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "twitter:image",
+            content: `${SERVER_URL}/og.webp`,
+          },
+        },
       ],
       title: "WDS Shadcn Registry",
       editLink: {
