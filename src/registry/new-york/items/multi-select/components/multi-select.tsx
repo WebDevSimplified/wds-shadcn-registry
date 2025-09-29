@@ -305,6 +305,7 @@ export function MultiSelectItem({
   return (
     <CommandItem
       {...props}
+      value={value}
       onSelect={() => {
         toggleValue(value)
         onSelect?.(value)
