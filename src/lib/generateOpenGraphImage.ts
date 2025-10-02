@@ -32,12 +32,43 @@ const satoriOptions = {
 export async function generateOpenGraphImage({
   title,
   tags,
-  secondaryText,
+  secondaryText = "WDS Shadcn Registry",
 }: {
   title: string
   tags: string[]
-  secondaryText: string
+  secondaryText?: string
 }) {
+  const headingChildren = title
+
+  const tagRow =
+    tags.length === 0
+      ? undefined
+      : {
+          type: "div" as const,
+          props: {
+            style: {
+              display: "flex",
+              gap: "1rem",
+              position: "relative",
+              justifyContent: "center",
+            },
+            children: tags.map((tag: string) => ({
+              type: "div",
+              props: {
+                style: {
+                  border: "1px solid #CCC",
+                  color: "#CCC",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "999px",
+                  fontSize: "1.25rem",
+                  background: "#111",
+                },
+                children: tag,
+              },
+            })),
+          },
+        }
+
   const svg = await satori(
     {
       type: "div",
@@ -73,29 +104,7 @@ export async function generateOpenGraphImage({
               },
             },
           },
-          {
-            type: "div",
-            props: {
-              style: {
-                display: "flex",
-                gap: "1rem",
-              },
-              children: tags.map(tag => ({
-                type: "div",
-                props: {
-                  style: {
-                    border: "1px solid #CCC",
-                    color: "#CCC",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "999px",
-                    fontSize: "1.25rem",
-                    background: "#111",
-                  },
-                  children: tag,
-                },
-              })),
-            },
-          },
+          ...(tagRow ? [tagRow] : []),
           {
             type: "h1",
             props: {
@@ -107,7 +116,7 @@ export async function generateOpenGraphImage({
                 lineHeight: "1",
                 textWrap: "balance",
               },
-              children: title,
+              children: headingChildren,
             },
           },
           {
