@@ -10,7 +10,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 }
 
 const FALLBACK_TITLE = "WDS Shadcn Registry"
-const DEFAULT_FOOTER_TEXT = "Web Dev Simplified • Shadcn Registry"
+const DEFAULT_SECONDARY_TEXT = "Web Dev Simplified • Shadcn Registry"
 
 function normalizePath(value?: string | null): string {
   if (value == null) return "index"
@@ -40,6 +40,23 @@ function buildInstallCommand(slug: string): string | undefined {
   return `shadcn@latest add @wds/${componentSlug}`
 }
 
+export async function getStaticPaths() {
+  const docs = await getCollection("docs")
+  const uniqueSlugs = new Set<string>()
+
+  for (const entry of docs) {
+    const normalized = normalizePath(entry.id)
+    if (normalized === "index") continue
+    uniqueSlugs.add(normalized)
+  }
+
+  return Array.from(uniqueSlugs).map(slug => ({
+    params: {
+      slug,
+    },
+  }))
+}
+
 export const GET: APIRoute = async ({ params }) => {
   const docs = await getCollection("docs")
   const slugParam = params.slug
@@ -51,11 +68,16 @@ export const GET: APIRoute = async ({ params }) => {
   const title = entry?.data.title ?? FALLBACK_TITLE
   const category = deriveCategory(effectiveSlug)
   const installCommand = buildInstallCommand(effectiveSlug)
+  const tags = [category]
+  if (installCommand) {
+    tags.push("Install with shadcn")
+  }
+
+  const secondaryText = installCommand ?? DEFAULT_SECONDARY_TEXT
 
   return generateOpenGraphImage({
     title,
-    category,
-    installCommand,
-    footerText: DEFAULT_FOOTER_TEXT,
+    tags,
+    secondaryText,
   })
 }

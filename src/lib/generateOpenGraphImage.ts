@@ -31,54 +31,43 @@ const satoriOptions = {
 
 export async function generateOpenGraphImage({
   title,
-  category,
-  installCommand,
-  footerText = "WDS Shadcn Registry",
+  tags,
+  secondaryText = "WDS Shadcn Registry",
 }: {
   title: string
-  category: string
-  installCommand?: string
-  footerText?: string
+  tags: string[]
+  secondaryText?: string
 }) {
-  const titleChildren: Array<
-    | string
-    | {
-        type: string
-        props: { style?: Record<string, string | number>; children: string }
-      }
-  > = [
-    {
-      type: "span",
-      props: {
-        style: {
-          display: "block",
-        },
-        children: title,
-      },
-    },
-  ]
+  const headingChildren = title
 
-  if (installCommand) {
-    titleChildren.push({
-      type: "span",
-      props: {
-        style: {
-          display: "inline-flex",
-          alignItems: "center",
-          marginTop: "1.5rem",
-          padding: "0.75rem 1.5rem",
-          borderRadius: "0.75rem",
-          backgroundColor: "rgba(240, 240, 240, 0.08)",
-          color: "#F0F0F0",
-          border: "1px solid rgba(240, 240, 240, 0.2)",
-          fontSize: "2rem",
-          fontWeight: 500,
-          letterSpacing: "-0.01em",
-        },
-        children: installCommand,
-      },
-    })
-  }
+  const tagRow =
+    tags.length === 0
+      ? undefined
+      : {
+          type: "div" as const,
+          props: {
+            style: {
+              display: "flex",
+              gap: "1rem",
+              position: "relative",
+              justifyContent: "center",
+            },
+            children: tags.map((tag: string) => ({
+              type: "div",
+              props: {
+                style: {
+                  border: "1px solid #CCC",
+                  color: "#CCC",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "999px",
+                  fontSize: "1.25rem",
+                  background: "#111",
+                },
+                children: tag,
+              },
+            })),
+          },
+        }
 
   const svg = await satori(
     {
@@ -88,15 +77,15 @@ export async function generateOpenGraphImage({
         style: {
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "stretch",
+          justifyContent: "center",
+          alignItems: "center",
           width: "100%",
           height: "100%",
           padding: "3rem",
           background: "#111",
           boxSizing: "border-box",
           position: "relative",
-          gap: "2rem",
+          gap: "1rem",
           color: "#F0F0F0",
           fontFamily: "Barlow",
         },
@@ -115,55 +104,36 @@ export async function generateOpenGraphImage({
               },
             },
           },
+          ...(tagRow ? [tagRow] : []),
+          {
+            type: "h1",
+            props: {
+              style: {
+                textAlign: "center",
+                fontSize: "5.5rem",
+                fontWeight: "bold",
+                margin: 0,
+                lineHeight: "1",
+                textWrap: "balance",
+              },
+              children: headingChildren,
+            },
+          },
           {
             type: "div",
             props: {
               style: {
-                position: "relative",
-                zIndex: 1,
                 display: "flex",
-                flexDirection: "column",
-                gap: "2.5rem",
-                height: "100%",
+                alignItems: "center",
+                gap: "1rem",
               },
               children: [
                 {
-                  type: "div",
+                  type: "img",
                   props: {
+                    src: `data:image/png;base64,${logo}`,
                     style: {
-                      display: "inline-flex",
-                      alignItems: "center",
-                      width: "fit-content",
-                      padding: "0.5rem 1.75rem",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(240, 240, 240, 0.3)",
-                      fontSize: "1.75rem",
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: "#F0F0F0",
-                      backgroundColor: "rgba(17, 17, 17, 0.7)",
-                    },
-                    children: category,
-                  },
-                },
-                {
-                  type: "h1",
-                  props: {
-                    style: {
-                      margin: 0,
-                      fontSize: "5.5rem",
-                      fontWeight: 600,
-                      lineHeight: "1.1",
-                      textWrap: "balance",
-                    },
-                    children: titleChildren,
-                  },
-                },
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      flexGrow: 1,
+                      width: "5rem",
                     },
                   },
                 },
@@ -171,31 +141,10 @@ export async function generateOpenGraphImage({
                   type: "div",
                   props: {
                     style: {
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1rem",
+                      fontSize: "2rem",
+                      color: "#CCC",
                     },
-                    children: [
-                      {
-                        type: "img",
-                        props: {
-                          src: `data:image/png;base64,${logo}`,
-                          style: {
-                            width: "5rem",
-                          },
-                        },
-                      },
-                      {
-                        type: "div",
-                        props: {
-                          style: {
-                            fontSize: "2rem",
-                            color: "#CCC",
-                          },
-                          children: footerText,
-                        },
-                      },
-                    ],
+                    children: secondaryText,
                   },
                 },
               ],
