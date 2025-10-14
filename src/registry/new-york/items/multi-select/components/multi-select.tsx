@@ -22,7 +22,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
   type ComponentPropsWithoutRef,
@@ -170,10 +169,6 @@ export function MultiSelectValue({
     setOverflowAmount(amount)
   }, [])
 
-  useLayoutEffect(() => {
-    checkOverflow()
-  }, [selectedValues, checkOverflow, shouldWrap])
-
   const handleResize = useCallback(
     (node: HTMLDivElement) => {
       valueRef.current = node
@@ -202,7 +197,7 @@ export function MultiSelectValue({
       {...props}
       ref={handleResize}
       className={cn(
-        "flex w-full gap-1.5 overflow-hidden",
+        "flex w-fit gap-1.5 overflow-hidden",
         shouldWrap && "h-full flex-wrap",
         className,
       )}
