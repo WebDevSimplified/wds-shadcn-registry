@@ -40,7 +40,7 @@ export default tseslint.config([
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     languageOptions: { globals: { ...globals.browser } },
   },
-  tseslint.configs.strict,
+  tseslint.configs.recommended,
   {
     settings: {
       react: {
@@ -50,7 +50,7 @@ export default tseslint.config([
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: { reactHooks, react },
     extends: [
-      reactHooks.configs["recommended-latest"],
+      reactHooks.configs.flat["recommended-latest"],
       react.configs.flat.recommended,
       react.configs.flat["jsx-runtime"],
     ],

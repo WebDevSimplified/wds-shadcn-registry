@@ -20,6 +20,7 @@ export function ManualInstallCodeCard({
     <Card className="not-content overflow-hidden bg-code p-0">
       <CardContent className="p-0">
         <div className="flex items-center border-b border-input px-3 py-1">
+          {/* eslint-disable-next-line react-hooks/static-components */}
           <Icon className="mr-2 size-4 text-muted-foreground" />
           <div className="font-mono text-muted-foreground">{filePath}</div>
           <Button

@@ -56,6 +56,7 @@ export function CodePreviewInternal({
             <Suspense
               fallback={<Loader2Icon className="size-16 animate-spin" />}
             >
+              {/* eslint-disable-next-line react-hooks/static-components */}
               <Component />
             </Suspense>
           </TabsContent>

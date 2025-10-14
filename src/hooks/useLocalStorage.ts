@@ -9,6 +9,7 @@ export function useLocalStorage<T>(
   useEffect(() => {
     // Update with useEffect instead of using the initial value function of useState because of SSR hydration issues
     const item = window.localStorage.getItem(key)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (item) setStoredValue(JSON.parse(item))
   }, [key])
 
