@@ -79,6 +79,8 @@ export async function generateOpenGraphImage({
               style: {
                 display: "flex",
                 gap: "1rem",
+                position: "relative",
+                justifyContent: "center",
               },
               children: tags.map(tag => ({
                 type: "div",
@@ -105,7 +107,7 @@ export async function generateOpenGraphImage({
                 fontWeight: "bold",
                 margin: 0,
                 lineHeight: "1",
-                textWrap: "balance",
+                textWrap: title.includes(" ") ? "balance" : "",
               },
               children: title,
             },
