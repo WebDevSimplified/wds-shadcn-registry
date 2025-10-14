@@ -1,83 +1,44 @@
 import type { APIRoute } from "astro"
-import { getCollection, type CollectionEntry } from "astro:content"
+import { getCollection } from "astro:content"
 import { generateOpenGraphImage } from "@/lib/generateOpenGraphImage"
 
 const CATEGORY_LABELS: Record<string, string> = {
-  index: "Docs",
   "getting-started": "Getting Started",
   components: "Components",
   contributing: "Contributing",
 }
 
-const FALLBACK_TITLE = "WDS Shadcn Registry"
-const DEFAULT_SECONDARY_TEXT = "Web Dev Simplified • Shadcn Registry"
-
-function normalizePath(value?: string | null): string {
-  if (value == null) return "index"
-  const normalized = value.replace(/^\/+/, "").replace(/\/+$/, "")
-  return normalized === "" ? "index" : normalized
-}
-
-function resolveDocsEntry(docs: CollectionEntry<"docs">[], targetSlug: string) {
-  return docs.find(entry => normalizePath(entry.id) === targetSlug)
-}
-
-function deriveCategory(slug: string): string {
-  const [firstSegment = "index"] = slug.split("/")
-  if (CATEGORY_LABELS[firstSegment] != null) {
-    return CATEGORY_LABELS[firstSegment]
-  }
-  return firstSegment
-    .split("-")
-    .map(segment => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join(" ")
+function deriveCategory(slug: string) {
+  const [firstSegment] = slug.split("/")
+  return CATEGORY_LABELS[firstSegment]
 }
 
 function buildInstallCommand(slug: string): string | undefined {
-  const segments = slug.split("/")
-  if (segments[0] !== "components" || segments.length < 2) return undefined
-  const componentSlug = segments.slice(1).join("/")
-  return `shadcn@latest add @wds/${componentSlug}`
+  const [parent, componentName] = slug.split("/")
+  if (parent !== "components" || componentName == null) return undefined
+  return `shadcn add @wds/${componentName}`
 }
 
 export async function getStaticPaths() {
   const docs = await getCollection("docs")
-  const uniqueSlugs = new Set<string>()
 
-  for (const entry of docs) {
-    const normalized = normalizePath(entry.id)
-    if (normalized === "index") continue
-    uniqueSlugs.add(normalized)
-  }
-
-  return Array.from(uniqueSlugs).map(slug => ({
-    params: {
-      slug,
-    },
+  return docs.map(entry => ({
+    params: { slug: entry.id },
   }))
 }
 
 export const GET: APIRoute = async ({ params }) => {
   const docs = await getCollection("docs")
-  const slugParam = params.slug
-  const slugValue = Array.isArray(slugParam) ? slugParam.join("/") : slugParam
-  const normalizedTarget = normalizePath(slugValue)
-  const entry = resolveDocsEntry(docs, normalizedTarget)
+  const slug = params.slug
+  if (slug == null) return new Response(null, { status: 400 })
 
-  const effectiveSlug = entry?.id ?? normalizedTarget
-  const title = entry?.data.title ?? FALLBACK_TITLE
-  const category = deriveCategory(effectiveSlug)
-  const installCommand = buildInstallCommand(effectiveSlug)
-  const tags = [category]
-  if (installCommand) {
-    tags.push("Install with shadcn")
-  }
-
-  const secondaryText = installCommand ?? DEFAULT_SECONDARY_TEXT
+  const entry = docs.find(entry => entry.id === slug)
+  if (entry == null) return new Response(null, { status: 404 })
+  const category = deriveCategory(slug)
 
   return generateOpenGraphImage({
-    title,
-    tags,
-    secondaryText,
+    title: entry.data.title,
+    tags: category ? [category] : [],
+    secondaryText: buildInstallCommand(slug) ?? "WDS Shadcn Registry",
   })
 }

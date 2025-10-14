@@ -1,4 +1,6 @@
 ---
+import path from "node:path"
+
 const { head } = Astro.locals.starlightRoute
 
 // By default, Astro renders the default favicon before the media specific favicons which results in the media specific favicons not being used.
@@ -20,30 +22,12 @@ const sortedHead = head.map(h => {
   }
 })
 
-const ogMetaProperties = new Set([
-  "og:image",
-  "og:image:secure_url",
-  "og:image:width",
-  "og:image:height",
-])
-const ogMetaNames = new Set(["twitter:image"])
+const ogImageUrl = new URL(
+  path.join(Astro.url.pathname, "og.webp"),
+  Astro.url,
+).toString()
 
-const trimmedPath = Astro.url.pathname.replace(/\/$/, "")
-const ogImagePath = trimmedPath === "" ? "/og.webp" : `${trimmedPath}/og.webp`
-const ogImageUrl = new URL(ogImagePath, Astro.site ?? Astro.url).toString()
-
-const headWithoutStaticOg = sortedHead.filter(item => {
-  if (item.tag !== "meta") return true
-  const attrs = item.attrs ?? {}
-  const property =
-    typeof attrs.property === "string" ? attrs.property : undefined
-  if (property && ogMetaProperties.has(property)) return false
-  const name = typeof attrs.name === "string" ? attrs.name : undefined
-  if (name && ogMetaNames.has(name)) return false
-  return true
-})
-
-const finalHead = headWithoutStaticOg.concat([
+const finalHead = sortedHead.concat([
   {
     tag: "meta",
     attrs: {
