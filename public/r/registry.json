@@ -59,7 +59,7 @@
       "name": "password-input",
       "description": "An input that can toggle visibility of the password text and check the strength of the password.",
       "type": "registry:component",
-      "registryDependencies": ["input", "button", "tooltip"],
+      "registryDependencies": ["input", "button", "tooltip", "input-group"],
       "dependencies": [
         "@zxcvbn-ts/core",
         "@zxcvbn-ts/language-common",

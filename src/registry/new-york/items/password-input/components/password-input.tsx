@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
@@ -21,11 +20,16 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 
 const PasswordInputContext = createContext<{ password: string } | null>(null)
 
 export function PasswordInput({
-  className,
   children,
   onChange,
   value,
@@ -48,28 +52,26 @@ export function PasswordInput({
   return (
     <PasswordInputContext value={{ password: currentValue.toString() }}>
       <div className="space-y-3">
-        <div className="relative">
-          <Input
+        <InputGroup>
+          <InputGroupInput
             {...props}
             value={value}
             defaultValue={defaultValue}
             type={showPassword ? "text" : "password"}
-            className={cn("pr-9", className)}
             onChange={handleChange}
           />
-          <Button
-            variant="ghost"
-            size="icon"
-            type="button"
-            className="absolute inset-y-1/2 right-1 size-7 -translate-y-1/2"
-            onClick={() => setShowPassword(p => !p)}
-          >
-            <Icon className="size-5" />
-            <span className="sr-only">
-              {showPassword ? "Hide password" : "Show password"}
-            </span>
-          </Button>
-        </div>
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              size="icon-xs"
+              onClick={() => setShowPassword(p => !p)}
+            >
+              <Icon className="size-4.5" />
+              <span className="sr-only">
+                {showPassword ? "Hide password" : "Show password"}
+              </span>
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
         {children}
       </div>
     </PasswordInputContext>
