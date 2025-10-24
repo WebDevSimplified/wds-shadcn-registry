@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "src/registry/new-york/items/number-input/components/number-input.tsx",
-      "content": "import { Input } from \"@/components/ui/input\"\nimport { type ComponentProps } from \"react\"\n\nexport function NumberInput({\n  onChange,\n  value,\n  ...props\n}: Omit<ComponentProps<typeof Input>, \"type\" | \"onChange\" | \"value\"> & {\n  onChange: (value: number | null) => void\n  value: undefined | null | number\n}) {\n  return (\n    <Input\n      {...props}\n      onChange={e => {\n        const number = e.target.valueAsNumber\n        onChange(isNaN(number) ? null : number)\n      }}\n      value={value ?? \"\"}\n      type=\"number\"\n    />\n  )\n}\n",
+      "content": "import { Input } from \"@/components/ui/input\"\nimport { cn } from \"@/lib/utils\"\nimport { type ComponentProps } from \"react\"\n\nexport function NumberInput({\n  onChange,\n  value,\n  ...props\n}: Omit<ComponentProps<typeof Input>, \"type\" | \"onChange\" | \"value\"> & {\n  onChange: (value: number | null) => void\n  value: undefined | null | number\n}) {\n  return (\n    <Input\n      {...props}\n      onChange={e => {\n        const number = e.target.valueAsNumber\n        onChange(isNaN(number) ? null : number)\n      }}\n      value={value ?? \"\"}\n      type=\"number\"\n    />\n  )\n}\n\nexport function InputGroupNumberInput({\n  className,\n  ...props\n}: React.ComponentProps<typeof NumberInput>) {\n  return (\n    <NumberInput\n      data-slot=\"input-group-control\"\n      className={cn(\n        \"flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent\",\n        className,\n      )}\n      {...props}\n    />\n  )\n}\n",
       "type": "registry:ui"
     }
   ]

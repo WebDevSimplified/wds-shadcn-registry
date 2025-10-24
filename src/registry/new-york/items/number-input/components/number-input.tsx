@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { type ComponentProps } from "react"
 
 export function NumberInput({
@@ -18,6 +19,22 @@ export function NumberInput({
       }}
       value={value ?? ""}
       type="number"
+    />
+  )
+}
+
+export function InputGroupNumberInput({
+  className,
+  ...props
+}: React.ComponentProps<typeof NumberInput>) {
+  return (
+    <NumberInput
+      data-slot="input-group-control"
+      className={cn(
+        "flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent",
+        className,
+      )}
+      {...props}
     />
   )
 }

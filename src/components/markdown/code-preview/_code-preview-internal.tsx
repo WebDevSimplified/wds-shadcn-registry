@@ -18,6 +18,7 @@ export type Demo =
   | "multi-select/overflow-behavior"
   | "multi-select/search-configuration"
   | "number-input/basic"
+  | "number-input/input-group"
   | "number-input/form"
   | "password-input/basic"
   | "password-input/form"

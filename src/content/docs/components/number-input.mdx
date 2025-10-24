@@ -17,16 +17,24 @@ import ToastProvider from "@/components/markdown/toast-provider.astro"
 
 ```tsx
 import { useState } from "react"
-import { NumberInput } from "@/components/ui/NumberInput"
+import { NumberInput, InputGroupNumberInput } from "@/components/ui/NumberInput"
 ```
 
 ```tsx
 const [value, setValue] = useState<number | null>(null)
 
 <NumberInput value={value} onChange={setValue} />
+// Or
+<InputGroup>
+  <InputGroupNumberInput value={value} onChange={setValue} />
+</InputGroup>
 ```
 
 ## Examples
+
+### With Input Group
+
+<CodePreview demo="number-input/input-group" />
 
 ### Form
 
