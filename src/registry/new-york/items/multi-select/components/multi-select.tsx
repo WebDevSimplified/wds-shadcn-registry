@@ -173,11 +173,19 @@ export function MultiSelectValue({
     (node: HTMLDivElement) => {
       valueRef.current = node
 
-      const observer = new ResizeObserver(checkOverflow)
+      const mutationObserver = new MutationObserver(checkOverflow)
+      const observer = new ResizeObserver(debounce(checkOverflow, 100))
+
+      mutationObserver.observe(node, {
+        childList: true,
+        attributes: true,
+        attributeFilter: ["class", "style"],
+      })
       observer.observe(node)
 
       return () => {
         observer.disconnect()
+        mutationObserver.disconnect()
         valueRef.current = null
       }
     },
@@ -197,7 +205,7 @@ export function MultiSelectValue({
       {...props}
       ref={handleResize}
       className={cn(
-        "flex w-fit gap-1.5 overflow-hidden",
+        "flex w-full gap-1.5 overflow-hidden",
         shouldWrap && "h-full flex-wrap",
         className,
       )}
@@ -333,4 +341,15 @@ function useMultiSelectContext() {
     )
   }
   return context
+}
+
+function debounce<T extends (...args: never[]) => void>(
+  func: T,
+  wait: number,
+): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout> | null = null
+  return function (this: unknown, ...args: Parameters<T>) {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => func.apply(this, args), wait)
+  }
 }
