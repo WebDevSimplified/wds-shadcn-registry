@@ -44,11 +44,13 @@ export function MultiSelect({
   values,
   defaultValues,
   onValuesChange,
+  single = false,
 }: {
   children: ReactNode
   values?: string[]
   defaultValues?: string[]
   onValuesChange?: (values: string[]) => void
+  single?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const [internalValues, setInternalValues] = useState(
@@ -59,6 +61,9 @@ export function MultiSelect({
 
   function toggleValue(value: string) {
     const getNewSet = (prev: Set<string>) => {
+      if (single) {
+        return prev.has(value) ? new Set<string>() : new Set<string>([value])
+      }
       const newSet = new Set(prev)
       if (newSet.has(value)) {
         newSet.delete(value)
@@ -69,6 +74,7 @@ export function MultiSelect({
     }
     setInternalValues(getNewSet)
     onValuesChange?.([...getNewSet(selectedValues)])
+    if (single) setOpen(false)
   }
 
   const onItemAdded = useCallback((value: string, label: ReactNode) => {
