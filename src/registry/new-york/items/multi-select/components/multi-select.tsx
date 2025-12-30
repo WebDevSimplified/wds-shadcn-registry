@@ -35,6 +35,7 @@ type MultiSelectContextType = {
   selectedValues: Set<string>
   toggleValue: (value: string) => void
   items: Map<string, ReactNode>
+  single: boolean
   onItemAdded: (value: string, label: ReactNode) => void
 }
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null)
@@ -44,11 +45,13 @@ export function MultiSelect({
   values,
   defaultValues,
   onValuesChange,
+  single = false,
 }: {
   children: ReactNode
   values?: string[]
   defaultValues?: string[]
   onValuesChange?: (values: string[]) => void
+  single?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const [internalValues, setInternalValues] = useState(
@@ -59,6 +62,9 @@ export function MultiSelect({
 
   function toggleValue(value: string) {
     const getNewSet = (prev: Set<string>) => {
+      if (single) {
+        return prev.has(value) ? new Set<string>() : new Set<string>([value])
+      }
       const newSet = new Set(prev)
       if (newSet.has(value)) {
         newSet.delete(value)
@@ -69,6 +75,7 @@ export function MultiSelect({
     }
     setInternalValues(getNewSet)
     onValuesChange?.([...getNewSet(selectedValues)])
+    if (single) setOpen(false)
   }
 
   const onItemAdded = useCallback((value: string, label: ReactNode) => {
@@ -84,6 +91,7 @@ export function MultiSelect({
         open,
         setOpen,
         selectedValues,
+        single,
         toggleValue,
         items,
         onItemAdded,
@@ -136,7 +144,8 @@ export function MultiSelectValue({
   clickToRemove?: boolean
   overflowBehavior?: "wrap" | "wrap-when-open" | "cutoff"
 } & Omit<ComponentPropsWithoutRef<"div">, "children">) {
-  const { selectedValues, toggleValue, items, open } = useMultiSelectContext()
+  const { selectedValues, toggleValue, items, open, single } =
+    useMultiSelectContext()
   const [overflowAmount, setOverflowAmount] = useState(0)
   const valueRef = useRef<HTMLDivElement>(null)
   const overflowRef = useRef<HTMLDivElement>(null)
@@ -196,6 +205,14 @@ export function MultiSelectValue({
     return (
       <span className="min-w-0 overflow-hidden font-normal text-muted-foreground">
         {placeholder}
+      </span>
+    )
+  }
+
+  if (single && selectedValues.size > 0) {
+    return (
+      <span className="min-w-0 overflow-hidden">
+        {items.get([...selectedValues][0])}
       </span>
     )
   }
