@@ -13,7 +13,7 @@ import { useState } from "react"
 import { Switch } from "@/components/ui/switch"
 
 export function OverflowBehaviorMultiSelect() {
-  const [singleSelect, setSingleSelect] = useState(false)
+  const [singleSelect, setSingleSelect] = useState(true)
 
   return (
     <div className="flex w-[400px] flex-col gap-8">
@@ -28,17 +28,7 @@ export function OverflowBehaviorMultiSelect() {
 
       <div className="flex flex-col gap-2">
         <Label>Frameworks</Label>
-        <MultiSelect
-          single={singleSelect}
-          defaultValues={[
-            "next.js",
-            "sveltekit",
-            "nuxt.js",
-            "remix",
-            "astro",
-            "vue",
-          ]}
-        >
+        <MultiSelect single={singleSelect} defaultValues={["next.js"]}>
           <MultiSelectTrigger className="w-full">
             <MultiSelectValue />
           </MultiSelectTrigger>
