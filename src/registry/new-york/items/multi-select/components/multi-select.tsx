@@ -35,6 +35,7 @@ type MultiSelectContextType = {
   selectedValues: Set<string>
   toggleValue: (value: string) => void
   items: Map<string, ReactNode>
+  single: boolean
   onItemAdded: (value: string, label: ReactNode) => void
 }
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null)
@@ -90,6 +91,7 @@ export function MultiSelect({
         open,
         setOpen,
         selectedValues,
+        single,
         toggleValue,
         items,
         onItemAdded,
@@ -142,7 +144,8 @@ export function MultiSelectValue({
   clickToRemove?: boolean
   overflowBehavior?: "wrap" | "wrap-when-open" | "cutoff"
 } & Omit<ComponentPropsWithoutRef<"div">, "children">) {
-  const { selectedValues, toggleValue, items, open } = useMultiSelectContext()
+  const { selectedValues, toggleValue, items, open, single } =
+    useMultiSelectContext()
   const [overflowAmount, setOverflowAmount] = useState(0)
   const valueRef = useRef<HTMLDivElement>(null)
   const overflowRef = useRef<HTMLDivElement>(null)
@@ -202,6 +205,14 @@ export function MultiSelectValue({
     return (
       <span className="min-w-0 overflow-hidden font-normal text-muted-foreground">
         {placeholder}
+      </span>
+    )
+  }
+
+  if (single && selectedValues.size > 0) {
+    return (
+      <span className="min-w-0 overflow-hidden">
+        {items.get([...selectedValues][0])}
       </span>
     )
   }

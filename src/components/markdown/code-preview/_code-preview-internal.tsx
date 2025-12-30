@@ -17,6 +17,7 @@ export type Demo =
   | "multi-select/form"
   | "multi-select/overflow-behavior"
   | "multi-select/search-configuration"
+  | "multi-select/selection-mode"
   | "number-input/basic"
   | "number-input/input-group"
   | "number-input/form"
