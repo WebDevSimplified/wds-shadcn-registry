@@ -196,7 +196,7 @@ export function MultiSelectValue({
       resizeObserver.disconnect()
       mutationObserver.disconnect()
     }
-  }, [checkOverflow, selectedValues])
+  }, [checkOverflow])
 
   if (selectedValues.size === 0 && placeholder) {
     return (
