@@ -178,28 +178,25 @@ export function MultiSelectValue({
     setOverflowAmount(amount)
   }, [])
 
-  const handleResize = useCallback(
-    (node: HTMLDivElement) => {
-      valueRef.current = node
+  useEffect(() => {
+    const node = valueRef.current
+    if (node == null) return
 
-      const mutationObserver = new MutationObserver(checkOverflow)
-      const observer = new ResizeObserver(debounce(checkOverflow, 100))
+    const mutationObserver = new MutationObserver(checkOverflow)
+    const resizeObserver = new ResizeObserver(debounce(checkOverflow, 100))
 
-      mutationObserver.observe(node, {
-        childList: true,
-        attributes: true,
-        attributeFilter: ["class", "style"],
-      })
-      observer.observe(node)
+    mutationObserver.observe(node, {
+      childList: true,
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    })
+    resizeObserver.observe(node)
 
-      return () => {
-        observer.disconnect()
-        mutationObserver.disconnect()
-        valueRef.current = null
-      }
-    },
-    [checkOverflow],
-  )
+    return () => {
+      resizeObserver.disconnect()
+      mutationObserver.disconnect()
+    }
+  }, [checkOverflow, selectedValues])
 
   if (selectedValues.size === 0 && placeholder) {
     return (
@@ -220,7 +217,7 @@ export function MultiSelectValue({
   return (
     <div
       {...props}
-      ref={handleResize}
+      ref={valueRef}
       className={cn(
         "flex w-full gap-1.5 overflow-hidden",
         shouldWrap && "h-full flex-wrap",
@@ -238,9 +235,9 @@ export function MultiSelectValue({
             onClick={
               clickToRemove
                 ? e => {
-                    e.stopPropagation()
-                    toggleValue(value)
-                  }
+                  e.stopPropagation()
+                  toggleValue(value)
+                }
                 : undefined
             }
           >
