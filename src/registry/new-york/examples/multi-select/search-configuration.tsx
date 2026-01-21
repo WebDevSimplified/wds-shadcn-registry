@@ -6,7 +6,7 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "@/registry/new-york/items/multi-select/components/multi-select"
+} from "@/registry/experimental/items/multi-select/components/multi-select"
 
 export function SearchConfigurationMultiSelect() {
   return (

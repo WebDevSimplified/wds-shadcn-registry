@@ -20,7 +20,7 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "@/registry/new-york/items/multi-select/components/multi-select"
+} from "@/registry/experimental/items/multi-select/components/multi-select"
 
 const formSchema = z.object({
   favoriteFrameworks: z.array(z.string()).min(1, "Required"),

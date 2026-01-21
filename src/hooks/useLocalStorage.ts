@@ -13,10 +13,24 @@ export function useLocalStorage<T>(
     if (item) setStoredValue(JSON.parse(item))
   }, [key])
 
+  useEffect(() => {
+    const handleStorage = () => {
+      const item = window.localStorage.getItem(key)
+      if (item) setStoredValue(JSON.parse(item))
+    }
+    window.addEventListener("storage", handleStorage)
+    window.addEventListener("local-storage", handleStorage)
+    return () => {
+      window.removeEventListener("storage", handleStorage)
+      window.removeEventListener("local-storage", handleStorage)
+    }
+  }, [key])
+
   const setValue = (value: T) => {
     const valueToStore = value instanceof Function ? value(storedValue) : value
     setStoredValue(valueToStore)
     window.localStorage.setItem(key, JSON.stringify(valueToStore))
+    window.dispatchEvent(new StorageEvent("local-storage", { key }))
   }
 
   return [storedValue, setValue]

@@ -5,7 +5,7 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from "@/components/ui/input-group"
-import { InputGroupNumberInput } from "@/registry/new-york/items/number-input/components/number-input"
+import { InputGroupNumberInput } from "@/registry/experimental/items/number-input/components/number-input"
 import { useState } from "react"
 
 export function BasicNumberInput() {
