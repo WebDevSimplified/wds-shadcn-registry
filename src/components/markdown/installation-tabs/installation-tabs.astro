@@ -87,6 +87,21 @@ function getFileLocationFromType(type: RegistryFileType) {
       action="run"
       command={`shadcn@latest add @wds/${registryItem}`}
     />
+    <div slot="cliStepsExperimental" class="space-y-2">
+      <CliCommandCode
+        action="run"
+        command={`shadcn@latest add @wds/${registryItem}-experimental`}
+      />
+      <p class="text-lg">
+        This installation provides support for all official Shadcn icon
+        libraries. The component is otherwise identical to the non-experimental
+        installation.
+      </p>
+      <p class="text-muted-foreground">
+        Icon support is experimental and may not be fully stable since it uses
+        internal Shadcn APIs.
+      </p>
+    </div>
     <div class="flex flex-col gap-8">
       {
         registryDependencies != null && registryDependencies.length > 0 && (

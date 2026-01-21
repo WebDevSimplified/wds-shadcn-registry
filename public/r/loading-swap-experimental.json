@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "loading-swap-experimental",
+  "description": "Swaps content with a loading spinner without layout shift.",
+  "files": [
+    {
+      "path": "src/registry/experimental/items/loading-swap/components/loading-swap.tsx",
+      "content": "import { IconPlaceholder } from \"@/components/registry-helpers/icon-placeholder\"\nimport { cn } from \"@/lib/utils\"\nimport type { ReactNode } from \"react\"\n\nexport function LoadingSwap({\n  isLoading,\n  children,\n  className,\n}: {\n  isLoading: boolean\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div className=\"grid grid-cols-1 items-center justify-items-center\">\n      <div\n        className={cn(\n          \"col-start-1 col-end-2 row-start-1 row-end-2 w-full\",\n          isLoading ? \"invisible\" : \"visible\",\n          className,\n        )}\n      >\n        {children}\n      </div>\n      <div\n        className={cn(\n          \"col-start-1 col-end-2 row-start-1 row-end-2\",\n          isLoading ? \"visible\" : \"invisible\",\n          className,\n        )}\n      >\n        <IconPlaceholder\n          lucide=\"Loader2Icon\"\n          tabler=\"IconLoader2\"\n          hugeicons=\"Loading03Icon\"\n          phosphor=\"CircleNotchIcon\"\n          remixicon=\"RiLoader4Line\"\n          className=\"animate-spin\"\n        />\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/loading-swap.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

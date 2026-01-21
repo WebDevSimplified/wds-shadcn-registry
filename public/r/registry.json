@@ -71,6 +71,81 @@
           "type": "registry:ui"
         }
       ]
+    },
+
+    {
+      "name": "loading-swap-experimental",
+      "description": "Swaps content with a loading spinner without layout shift.",
+      "type": "registry:component",
+      "files": [
+        {
+          "path": "src/registry/experimental/items/loading-swap/components/loading-swap.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/loading-swap.tsx"
+        }
+      ]
+    },
+    {
+      "name": "action-button-experimental",
+      "description": "A button that performs an action when clicked and optionally asks for user confirmation.",
+      "type": "registry:component",
+      "registryDependencies": [
+        "alert-dialog",
+        "button",
+        "sonner",
+        "https://wds-shadcn-registry.netlify.app/r/loading-swap-experimental.json"
+      ],
+      "files": [
+        {
+          "path": "src/registry/experimental/items/action-button/components/action-button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/action-button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "number-input-experimental",
+      "description": "An input that returns a number value and automatically handles invalid inputs.",
+      "type": "registry:component",
+      "registryDependencies": ["input"],
+      "files": [
+        {
+          "path": "src/registry/experimental/items/number-input/components/number-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/number-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "multi-select-experimental",
+      "description": "A multi-select input that emulates the Shadcn Select component as closely as possible.",
+      "type": "registry:component",
+      "registryDependencies": ["popover", "command", "badge", "button"],
+      "files": [
+        {
+          "path": "src/registry/experimental/items/multi-select/components/multi-select.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/multi-select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "password-input-experimental",
+      "description": "An input that can toggle visibility of the password text and check the strength of the password.",
+      "type": "registry:component",
+      "registryDependencies": ["input", "button", "tooltip", "input-group"],
+      "dependencies": [
+        "@zxcvbn-ts/core",
+        "@zxcvbn-ts/language-common",
+        "@zxcvbn-ts/language-en"
+      ],
+      "files": [
+        {
+          "path": "src/registry/experimental/items/password-input/components/password-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/password-input.tsx"
+        }
+      ]
     }
   ]
 }

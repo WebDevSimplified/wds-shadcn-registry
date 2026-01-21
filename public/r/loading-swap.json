@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "loading-swap",
-  "type": "registry:component",
   "description": "Swaps content with a loading spinner without layout shift.",
   "files": [
     {
@@ -9,5 +8,6 @@
       "content": "import { cn } from \"@/lib/utils\"\nimport { Loader2Icon } from \"lucide-react\"\nimport type { ReactNode } from \"react\"\n\nexport function LoadingSwap({\n  isLoading,\n  children,\n  className,\n}: {\n  isLoading: boolean\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div className=\"grid grid-cols-1 items-center justify-items-center\">\n      <div\n        className={cn(\n          \"col-start-1 col-end-2 row-start-1 row-end-2 w-full\",\n          isLoading ? \"invisible\" : \"visible\",\n          className,\n        )}\n      >\n        {children}\n      </div>\n      <div\n        className={cn(\n          \"col-start-1 col-end-2 row-start-1 row-end-2\",\n          isLoading ? \"visible\" : \"invisible\",\n          className,\n        )}\n      >\n        <Loader2Icon className=\"animate-spin\" />\n      </div>\n    </div>\n  )\n}\n",
       "type": "registry:ui"
     }
-  ]
+  ],
+  "type": "registry:component"
 }
