@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "multi-select-experimental",
-  "description": "A multi-select input that emulates the Shadcn Select component as closely as possible.",
+  "description": "A multi-select input that emulates the Shadcn Select component as closely as possible. (Includes experimental support for all Shadcn icon libraries)",
   "registryDependencies": [
     "popover",
     "command",

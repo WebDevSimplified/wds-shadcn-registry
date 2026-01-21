@@ -75,7 +75,7 @@
 
     {
       "name": "loading-swap-experimental",
-      "description": "Swaps content with a loading spinner without layout shift.",
+      "description": "Swaps content with a loading spinner without layout shift. (Includes experimental support for all Shadcn icon libraries)",
       "type": "registry:component",
       "files": [
         {
@@ -87,7 +87,7 @@
     },
     {
       "name": "action-button-experimental",
-      "description": "A button that performs an action when clicked and optionally asks for user confirmation.",
+      "description": "A button that performs an action when clicked and optionally asks for user confirmation. (Includes experimental support for all Shadcn icon libraries)",
       "type": "registry:component",
       "registryDependencies": [
         "alert-dialog",
@@ -105,7 +105,7 @@
     },
     {
       "name": "number-input-experimental",
-      "description": "An input that returns a number value and automatically handles invalid inputs.",
+      "description": "An input that returns a number value and automatically handles invalid inputs. (Includes experimental support for all Shadcn icon libraries)",
       "type": "registry:component",
       "registryDependencies": ["input"],
       "files": [
@@ -118,7 +118,7 @@
     },
     {
       "name": "multi-select-experimental",
-      "description": "A multi-select input that emulates the Shadcn Select component as closely as possible.",
+      "description": "A multi-select input that emulates the Shadcn Select component as closely as possible. (Includes experimental support for all Shadcn icon libraries)",
       "type": "registry:component",
       "registryDependencies": ["popover", "command", "badge", "button"],
       "files": [
@@ -131,7 +131,7 @@
     },
     {
       "name": "password-input-experimental",
-      "description": "An input that can toggle visibility of the password text and check the strength of the password.",
+      "description": "An input that can toggle visibility of the password text and check the strength of the password. (Includes experimental support for all Shadcn icon libraries)",
       "type": "registry:component",
       "registryDependencies": ["input", "button", "tooltip", "input-group"],
       "dependencies": [

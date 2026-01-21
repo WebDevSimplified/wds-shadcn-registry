@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "number-input-experimental",
-  "description": "An input that returns a number value and automatically handles invalid inputs.",
+  "description": "An input that returns a number value and automatically handles invalid inputs. (Includes experimental support for all Shadcn icon libraries)",
   "registryDependencies": [
     "input"
   ],

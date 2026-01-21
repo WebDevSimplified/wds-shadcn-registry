@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "action-button-experimental",
-  "description": "A button that performs an action when clicked and optionally asks for user confirmation.",
+  "description": "A button that performs an action when clicked and optionally asks for user confirmation. (Includes experimental support for all Shadcn icon libraries)",
   "registryDependencies": [
     "alert-dialog",
     "button",
