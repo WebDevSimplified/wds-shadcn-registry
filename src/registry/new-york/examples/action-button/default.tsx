@@ -1,4 +1,4 @@
-import { ActionButton } from "@/registry/new-york/items/action-button/components/action-button"
+import { ActionButton } from "@/registry/experimental/items/action-button/components/action-button"
 
 const serverAction = async () => {
   // Simulate a server action

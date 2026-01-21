@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { PasswordInput } from "@/registry/new-york/items/password-input/components/password-input"
+import { PasswordInput } from "@/registry/experimental/items/password-input/components/password-input"
 
 const formSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),

@@ -1,7 +1,7 @@
 import {
   PasswordInput,
   PasswordInputStrengthChecker,
-} from "../../items/password-input/components/password-input"
+} from "@/registry/experimental/items/password-input/components/password-input"
 
 export default function PasswordInputStrength() {
   return (

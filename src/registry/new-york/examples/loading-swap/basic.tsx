@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { LoadingSwap } from "@/registry/new-york/items/loading-swap/components/loading-swap"
+import { LoadingSwap } from "@/registry/experimental/items/loading-swap/components/loading-swap"
 import { useTransition } from "react"
 
 export function LoadingButton() {

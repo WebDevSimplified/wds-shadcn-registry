@@ -8,7 +8,7 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from "@/registry/new-york/items/multi-select/components/multi-select"
+} from "@/registry/experimental/items/multi-select/components/multi-select"
 import { useState } from "react"
 import { Switch } from "@/components/ui/switch"
 
